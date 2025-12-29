@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply | Prashant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030303;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #7c3aed;
+            --accent-glow: rgba(124, 58, 237, 0.2);
+            --accent-hover: #6d28d9;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --grid-color: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0 60px 0;
+        }
+
+        /* --- LOGO & NAV --- */
+        .logo-link {
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo-text {
+            font-weight: 900; 
+            letter-spacing: -1px; 
+            font-size: 1.2rem;
+            color: var(--text-main);
+        }
+
+        .logo-overlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            height: 2.8rem;
+            min-width: 100%; 
+            background-color: var(--bg); 
+            object-fit: contain;
+        }
+
+        .nav-link { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.75rem; 
+            color: var(--text-muted); 
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover { border-color: var(--text-main); color: var(--text-main); }
+
+        /* --- HEADER --- */
+        .page-header { margin-bottom: 60px; max-width: 600px; }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        
+        .page-header h1 span { color: var(--text-muted); }
+        
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            border-left: 2px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        /* --- SHOP GRID --- */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+            padding-bottom: 60px;
+        }
+
+        .product-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .product-image-area {
+            height: 250px;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .img-placeholder {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        .product-details {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .product-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .product-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .price {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .btn-buy {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-buy:hover { background: var(--accent-hover); }
+
+        .btn-disabled {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-enter { animation: fadeInUp 0.8s ease forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        /* --- MOBILE LAYOUT --- */
+        @media (max-width: 900px) {
+            nav { flex-direction: column; gap: 20px; padding-bottom: 40px; }
+            .logo-overlay { height: 2.2rem; }
+            .page-header { text-align: center; margin: 0 auto 60px auto; }
+            .page-header p { border: none; padding: 0; }
+            .page-header h1 { font-size: 2.5rem; }
+            .shop-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <nav class="animate-enter">
+            <a href="shop.html" class="logo-link">
+                <span class="logo-text">DEATH2X</span>
+                <img src="death2x.png" alt="Logo" class="logo-overlay" onerror="this.style.display='none'">
+            </a>
+            
+            <a href="index.html" class="nav-link">cd .. / return_home</a>
+        </nav>
+
+        <header class="page-header animate-enter delay-1">
+            <h1>DEATHX2 <br><span>STORE.</span></h1>
+            <p>
+                Equipment, digital assets, and source code. 
+                High-quality resources for your next build.
+            </p>
+        </header>
+
+        <section class="shop-grid">
+
+            <div class="product-card animate-enter delay-2">
+                <div class="product-image-area">
+                    <span class="img-placeholder">[ IMAGE_NOT_FOUND ]</span>
+                </div>
+                <div class="product-details">
+                    <h3 class="product-title">System Hoodie v2</h3>
+                    <p class="product-desc">Heavyweight cotton blend. Features the Death2x grid pattern on the back.</p>
+                    <div class="product-footer">
+                        <span class="price">$55.00</span>
+                        <a href="#" class="btn-buy">ADD_TO_CART</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card animate-enter delay-3">
+                <div class="product-image-area">
+                    <span class="img-placeholder">[ MUG_RENDER.obj ]</span>
+                </div>
+                <div class="product-details">
+                    <h3 class="product-title">"Hello World" Mug</h3>
+                    <p class="product-desc">Matte black ceramic. Keeps coffee hot while you debug infinite loops.</p>
+                    <div class="product-footer">
+                        <span class="price">$18.00</span>
+                        <a href="#" class="btn-buy">ADD_TO_CART</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card animate-enter delay-3">
+                <div class="product-image-area">
+                    <span class="img-placeholder">[ SOURCE_LOCKED ]</span>
+                </div>
+                <div class="product-details">
+                    <h3 class="product-title">Private Source Code</h3>
+                    <p class="product-desc">Complete access to my personal algorithm library. Requires clearance.</p>
+                    <div class="product-footer">
+                        <span class="price">INVALID</span>
+                        <button class="btn-buy btn-disabled" disabled>OUT_OF_STOCK</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+</body>
+</html>
