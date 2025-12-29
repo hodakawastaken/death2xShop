@@ -6,13 +6,14 @@
     <title>Projects | Prashant</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- INHERITED STYLES START --- */
         :root {
             --bg: #030303;
             --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(255, 255, 255, 0.06);
             --border: rgba(255, 255, 255, 0.08);
             --accent: #7c3aed;
             --accent-glow: rgba(124, 58, 237, 0.2);
+            --accent-hover: #6d28d9;
             --text-main: #ffffff;
             --text-muted: #888888;
             --grid-color: rgba(255, 255, 255, 0.03);
@@ -42,10 +43,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0 80px 0;
+            padding: 20px 0 60px 0;
         }
 
-        /* --- OVERLAY LOGO TECHNIQUE --- */
+        /* --- LOGO & NAV --- */
         .logo-link {
             text-decoration: none;
             position: relative;
@@ -57,23 +58,17 @@
             letter-spacing: -1px; 
             font-size: 1.2rem;
             color: var(--text-main);
-            visibility: visible;
         }
 
         .logo-overlay {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            
-            /* Desktop Size */
             height: 2.8rem;
-            
             min-width: 100%; 
             background-color: var(--bg); 
             object-fit: contain;
         }
-        /* ----------------------------- */
         
         .nav-link { 
             font-family: 'JetBrains Mono', monospace; 
@@ -88,22 +83,9 @@
 
         .nav-link:hover { border-color: var(--text-main); color: var(--text-main); }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-enter { animation: fadeInUp 0.8s ease forwards; opacity: 0; }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-
-        /* --- PAGE SPECIFIC STYLES --- */
-        .page-header {
-            margin-bottom: 60px;
-            max-width: 600px;
-        }
-
+        /* --- HEADER --- */
+        .page-header { margin-bottom: 60px; max-width: 600px; }
+        
         .page-header h1 {
             font-size: 3.5rem;
             font-weight: 900;
@@ -122,7 +104,7 @@
             padding-left: 20px;
         }
 
-        /* Grid Layout */
+        /* --- PROJECT GRID --- */
         .project-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -136,7 +118,6 @@
             border-radius: 12px;
             padding: 30px;
             transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -155,16 +136,8 @@
             margin-bottom: 20px;
         }
 
-        .project-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .project-type {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
+        .project-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 5px; }
+        .project-type { color: var(--text-muted); font-size: 0.9rem; }
 
         .status-badge {
             font-family: 'JetBrains Mono', monospace;
@@ -175,7 +148,6 @@
             color: var(--accent);
         }
 
-        /* Specific style for pending badge to look slightly different */
         .status-pending {
             color: var(--text-muted);
             border: 1px solid var(--border);
@@ -190,9 +162,7 @@
         }
 
         .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; flex-wrap: wrap; gap: 10px;
             margin-top: auto;
             border-top: 1px solid var(--border);
             padding-top: 20px;
@@ -204,33 +174,30 @@
             color: #ccc;
         }
 
-        .tech-tag::before {
-            content: './';
-            color: var(--accent);
-            margin-right: 2px;
+        .tech-tag::before { content: './'; color: var(--accent); margin-right: 2px; }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+        .animate-enter { animation: fadeInUp 0.8s ease forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
 
-        /* --- MOBILE VIEW OPTIMIZATION --- */
+        /* --- MOBILE LAYOUT --- */
         @media (max-width: 900px) {
-            nav {
-                flex-direction: column;
-                gap: 20px;
-                padding-bottom: 40px;
-            }
-
+            nav { flex-direction: column; gap: 20px; padding-bottom: 40px; }
             .logo-overlay { height: 2.2rem; }
-
             .page-header { text-align: center; margin: 0 auto 60px auto; }
             .page-header p { border: none; padding: 0; }
-            
-            /* Fix Grid for mobile - single column */
             .project-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 480px) {
             .page-header h1 { font-size: 2.5rem; }
         }
-        /* -------------------------------- */
     </style>
 </head>
 <body>
@@ -238,7 +205,7 @@
     <div class="container">
         
         <nav class="animate-enter">
-            <a href="index.html" class="logo-link">
+            <a href="shop.html" class="logo-link">
                 <span class="logo-text">DEATH2X</span>
                 <img src="death2x.png" alt="Logo" class="logo-overlay" onerror="this.style.display='none'">
             </a>
