@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Prashant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030303;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #7c3aed;
+            --accent-glow: rgba(124, 58, 237, 0.5);
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --grid-color: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            height: 100vh;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-enter {
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0 60px 0;
+            flex-shrink: 0;
+        }
+        
+        /* --- OVERLAY LOGO TECHNIQUE --- */
+        .logo-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo-text {
+            font-weight: 900; 
+            letter-spacing: -1px; 
+            font-size: 1.2rem;
+            color: var(--text-main);
+            visibility: visible;
+        }
+
+        .logo-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            
+            /* Desktop Size */
+            height: 2.8rem;
+            
+            min-width: 100%; 
+            background-color: var(--bg); 
+            object-fit: contain;
+        }
+        /* ----------------------------- */
+
+        .tagline { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.75rem; 
+            color: var(--text-muted); 
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            gap: 60px;
+            flex-grow: 1;
+            padding-bottom: 100px;
+        }
+
+        .hero-text h1 {
+            font-size: 5rem;
+            line-height: 0.95;
+            font-weight: 900;
+            letter-spacing: -3px;
+            margin-bottom: 30px;
+        }
+        
+        .hero-text h1 span {
+            color: var(--text-muted); 
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 450px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            border-left: 2px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        /* --- BUTTON STYLES --- */
+        .btn-main {
+            display: inline-block;
+            padding: 14px 28px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-main:hover {
+            border-color: var(--accent);
+            background: rgba(124, 58, 237, 0.1);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+            transform: translateY(-2px);
+        }
+        /* ------------------------- */
+
+        .image-stack {
+            position: relative;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-text {
+            position: absolute;
+            font-size: 12rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.02);
+            z-index: -1;
+            top: 50px;
+            right: -50px;
+            user-select: none;
+        }
+
+        .profile-wrapper {
+            width: 350px;
+            height: 480px;
+            position: relative;
+            z-index: 2;
+            animation: float 6s ease-in-out infinite; 
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            filter: grayscale(100%) contrast(1.1); 
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8); 
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .ring {
+            position: absolute;
+            width: 110%;
+            height: 105%;
+            border: 2px solid var(--accent);
+            top: -2.5%;
+            left: -5%;
+            border-radius: 24px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* --- MOBILE VIEW OPTIMIZATION --- */
+        @media (max-width: 900px) {
+            body { height: auto; }
+            
+            nav {
+                flex-direction: column;
+                gap: 20px;
+                padding-bottom: 40px;
+            }
+
+            /* Adjust Logo height for mobile */
+            .logo-overlay { height: 2.2rem; }
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+                padding-bottom: 60px;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem; /* Smaller font for tablet */
+                letter-spacing: -2px;
+            }
+
+            .hero-text p {
+                margin: 0 auto 30px auto;
+                border: none;
+                padding: 0;
+            }
+
+            .image-stack { height: auto; margin-top: 20px; }
+            .bg-text { display: none; }
+            .profile-wrapper { width: 100%; max-width: 350px; margin: 0 auto; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 { font-size: 2.5rem; } /* Smaller font for mobile */
+            .profile-wrapper { width: 90%; height: auto; aspect-ratio: 3/4; }
+            .tagline { font-size: 0.65rem; padding: 4px 8px; }
+        }
+        /* -------------------------------- */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <nav class="animate-enter">
+            <div class="logo-wrapper">
+                <span class="logo-text">DEATH2X</span>
+                <img src="death2x.png" alt="Logo" class="logo-overlay" onerror="this.style.display='none'">
+            </div>
+            <div class="tagline">System.out.println("Hello World");</div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-text animate-enter delay-1">
+                <h1>PRASHANT <br><span>SHARMA.</span></h1>
+                <p>
+                    Translating intent into execution. I am building my foundation in **Java** architecture and **Python** algorithms, 
+                    one strict data type at a time.
+                </p>
+                <a href="projects.html" class="btn-main">View Projects_</a>
+            </div>
+
+            <div class="image-stack animate-enter delay-2">
+                <div class="bg-text">SYS</div>
+                
+                <div class="profile-wrapper">
+                    <div class="ring"></div>
+                    <img src="profile.jpg" alt="Profile" class="profile-img">
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

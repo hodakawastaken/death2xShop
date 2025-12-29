@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Prashant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- INHERITED STYLES START --- */
+        :root {
+            --bg: #030303;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #7c3aed;
+            --accent-glow: rgba(124, 58, 237, 0.2);
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --grid-color: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0 80px 0;
+        }
+
+        /* --- OVERLAY LOGO TECHNIQUE --- */
+        .logo-link {
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo-text {
+            font-weight: 900; 
+            letter-spacing: -1px; 
+            font-size: 1.2rem;
+            color: var(--text-main);
+            visibility: visible;
+        }
+
+        .logo-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            
+            /* Desktop Size */
+            height: 2.8rem;
+            
+            min-width: 100%; 
+            background-color: var(--bg); 
+            object-fit: contain;
+        }
+        /* ----------------------------- */
+        
+        .nav-link { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.75rem; 
+            color: var(--text-muted); 
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover { border-color: var(--text-main); color: var(--text-main); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-enter { animation: fadeInUp 0.8s ease forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        /* --- PAGE SPECIFIC STYLES --- */
+        .page-header {
+            margin-bottom: 60px;
+            max-width: 600px;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .page-header h1 span { color: var(--text-muted); }
+        
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            border-left: 2px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        /* Grid Layout */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+            padding-bottom: 60px;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5), 0 0 20px var(--accent-glow);
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .project-type {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--accent);
+        }
+
+        /* Specific style for pending badge to look slightly different */
+        .status-pending {
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            background: transparent;
+        }
+
+        .project-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .tech-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #ccc;
+        }
+
+        .tech-tag::before {
+            content: './';
+            color: var(--accent);
+            margin-right: 2px;
+        }
+
+        /* --- MOBILE VIEW OPTIMIZATION --- */
+        @media (max-width: 900px) {
+            nav {
+                flex-direction: column;
+                gap: 20px;
+                padding-bottom: 40px;
+            }
+
+            .logo-overlay { height: 2.2rem; }
+
+            .page-header { text-align: center; margin: 0 auto 60px auto; }
+            .page-header p { border: none; padding: 0; }
+            
+            /* Fix Grid for mobile - single column */
+            .project-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 { font-size: 2.5rem; }
+        }
+        /* -------------------------------- */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <nav class="animate-enter">
+            <a href="index.html" class="logo-link">
+                <span class="logo-text">DEATH2X</span>
+                <img src="death2x.png" alt="Logo" class="logo-overlay" onerror="this.style.display='none'">
+            </a>
+            
+            <a href="index.html" class="nav-link">cd .. / return_home</a>
+        </nav>
+
+        <header class="page-header animate-enter delay-1">
+            <h1>PRASHANT'S <br><span>PROJECTS.</span></h1>
+            <p>
+                A collection of all my projects, even the ones that dont even exist, yet. 
+                Focusing on building a strong foundation in logic and algorithms.
+            </p>
+        </header>
+
+        <section class="project-grid">
+
+            <div class="project-card animate-enter delay-2">
+                <div>
+                    <div class="project-meta">
+                        <div>
+                            <div class="project-title">Python Calculator</div>
+                            <div class="project-type">Future Build</div>
+                        </div>
+                        <span class="status-badge status-pending">PENDING</span>
+                    </div>
+                    <p class="project-desc">
+                        A planned arithmetic application to handle standard operations and logic. 
+                        Currently 5% into my Python learning journey, building the foundational syntax 
+                        needed to execute this project within the next year.
+                    </p>
+                </div>
+                <div class="tech-stack">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Math</span>
+                    <span class="tech-tag">Logic</span>
+                </div>
+            </div>
+
+            <div class="project-card animate-enter delay-3">
+                <div>
+                    <div class="project-meta">
+                        <div>
+                            <div class="project-title">Java Alarm Clock</div>
+                            <div class="project-type">Desktop Application</div>
+                        </div>
+                        <span class="status-badge status-pending">PLANNED</span>
+                    </div>
+                    <p class="project-desc">
+                        A robust desktop time management tool with custom alarm settings.
+                        Targeted for completion before the start of 2028, this project will 
+                        utilize Java threading for precision and GUI libraries for the interface.
+                    </p>
+                </div>
+                <div class="tech-stack">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">Threading</span>
+                    <span class="tech-tag">GUI</span>
+                </div>
+            </div>
+
+            <div class="project-card animate-enter delay-3">
+                <div>
+                    <div class="project-meta">
+                        <div>
+                            <div class="project-title">Portfolio v21</div>
+                            <div class="project-type">Web Development</div>
+                        </div>
+                        <span class="status-badge">LIVE</span>
+                    </div>
+                    <p class="project-desc">
+                        Iteration #21 of my personal site. I've experimented with over 20 different 
+                        themes and layouts previously, but this dark, system-focused design 
+                        is my favorite so far.
+                    </p>
+                </div>
+                <div class="tech-stack">
+                    <span class="tech-tag">HTML5</span>
+                    <span class="tech-tag">CSS3</span>
+                    <span class="tech-tag">Design</span>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+</body>
+</html>
