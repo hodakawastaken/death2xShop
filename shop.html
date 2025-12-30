@@ -230,7 +230,10 @@
                 <img src="death2x.png" alt="Logo" class="logo-overlay" onerror="this.style.display='none'">
             </a>
             
-            <a href="index.html" class="nav-link">cd .. / return_home</a>
+            <div style="display: flex; gap: 15px;">
+                <a href="login.html" id="authLink" class="nav-link">LOGIN / SIGNUP</a>
+                <a href="index.html" class="nav-link">cd .. / return_home</a>
+            </div>
         </nav>
 
         <header class="page-header animate-enter delay-1">
@@ -289,5 +292,32 @@
 
     </div>
 
+    <script>
+        const authLink = document.getElementById('authLink');
+        const userEmail = localStorage.getItem('death2x_user');
+        const token = localStorage.getItem('death2x_token');
+
+        if (token && userEmail) {
+            // User is logged in
+            // Extract username before @ symbol for cleaner look
+            const shortName = userEmail.split('@')[0];
+            authLink.innerText = "LOGOUT [" + shortName + "]";
+            authLink.href = "#";
+            
+            authLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Logout logic
+                if(confirm("Confirm termination of session?")) {
+                    localStorage.removeItem('death2x_token');
+                    localStorage.removeItem('death2x_user');
+                    window.location.reload();
+                }
+            });
+        } else {
+            // User is NOT logged in
+            authLink.innerText = "LOGIN / SIGNUP";
+            authLink.href = "login.html";
+        }
+    </script>
 </body>
 </html>
