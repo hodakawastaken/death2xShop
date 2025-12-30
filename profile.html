@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Death2x</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030303;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #7c3aed;
+            --accent-hover: #6d28d9;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .container { width: 100%; max-width: 500px; padding: 20px; }
+        
+        .profile-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px;
+        }
+
+        h1 { font-weight: 900; font-size: 2rem; margin-bottom: 5px; }
+        .uid-tag { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 30px; display: block;}
+        
+        .section-title {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 5px;
+        }
+
+        .input-group { margin-bottom: 20px; }
+        .input-field { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; color: white; border-radius: 6px; }
+        
+        .btn {
+            width: 100%; padding: 12px; border: none; border-radius: 6px; 
+            font-family: 'JetBrains Mono', monospace; cursor: pointer; margin-bottom: 10px;
+            transition: 0.2s;
+        }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: var(--accent-hover); }
+        
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+        .btn-outline:hover { border-color: white; color: white; }
+
+        .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+        .btn-danger:hover { background: var(--danger); color: white; }
+
+        .nav-back { text-align: center; margin-top: 20px; }
+        .nav-back a { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; }
+        .nav-back a:hover { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="profile-card">
+            <h1>IDENTITY.</h1>
+            <span id="userEmailDisplay" class="uid-tag">LOADING_USER_DATA...</span>
+
+            <div class="section-title">SECURITY_SETTINGS</div>
+            
+            <form id="passForm">
+                <div class="input-group">
+                    <input type="password" id="newPass" class="input-field" placeholder="NEW_PASSWORD" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary">UPDATE_CREDENTIALS</button>
+            </form>
+            <div id="msgBox" style="font-family:'JetBrains Mono'; font-size:0.8rem; margin-bottom: 20px; text-align: center;"></div>
+
+            <div class="section-title">SESSION_CONTROL</div>
+            <button id="logoutBtn" class="btn btn-danger">TERMINATE_SESSION</button>
+        </div>
+
+        <div class="nav-back">
+            <a href="shop.html">cd .. / return_to_shop</a>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('death2x_token');
+        const email = localStorage.getItem('death2x_user');
+
+        if (!token) window.location.href = 'login.html';
+
+        document.getElementById('userEmailDisplay').innerText = "USER: " + email;
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            if(confirm("Are you sure you want to logout?")) {
+                localStorage.clear();
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Change Password
+        document.getElementById('passForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newPassword = document.getElementById('newPass').value;
+            const msgBox = document.getElementById('msgBox');
+            const btn = e.target.querySelector('button');
+
+            btn.disabled = true;
+            btn.innerText = "PROCESSING...";
+
+            try {
+                const res = await fetch('/api/change-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, newPassword })
+                });
+                
+                const data = await res.json();
+                if(!res.ok) throw new Error(data.error);
+
+                msgBox.style.color = "#4ade80";
+                msgBox.innerText = "SUCCESS: Password updated.";
+                e.target.reset();
+            } catch (err) {
+                msgBox.style.color = "#ef4444";
+                msgBox.innerText = "ERROR: " + err.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "UPDATE_CREDENTIALS";
+            }
+        });
+    </script>
+</body>
+</html>
