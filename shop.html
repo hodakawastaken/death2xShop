@@ -12,8 +12,6 @@
             --surface-hover: rgba(255, 255, 255, 0.06);
             --border: rgba(255, 255, 255, 0.08);
             --accent: #7c3aed;
-            --accent-glow: rgba(124, 58, 237, 0.2);
-            --accent-hover: #6d28d9;
             --text-main: #ffffff;
             --text-muted: #888888;
             --grid-color: rgba(255, 255, 255, 0.03);
@@ -30,321 +28,242 @@
                 linear-gradient(var(--grid-color) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
             background-size: 40px 40px;
+            overflow-x: hidden; /* Prevent scroll when cart opens */
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0 60px 0;
-        }
-
-        /* --- LOGO & NAV --- */
-        .logo-link {
-            text-decoration: none;
-            position: relative;
-            display: inline-block;
-        }
-
-        .logo-text {
-            font-weight: 900; 
-            letter-spacing: -1px; 
-            font-size: 1.2rem;
-            color: var(--text-main);
-        }
-
-        .logo-overlay {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            height: 2.8rem;
-            min-width: 100%; 
-            background-color: var(--bg); 
-            object-fit: contain;
-        }
-
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; transition: 0.3s; }
+        
+        /* --- NAV --- */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 60px 0; }
+        .logo-text { font-weight: 900; letter-spacing: -1px; font-size: 1.2rem; color: var(--text-main); text-decoration: none; }
         .nav-link { 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 0.75rem; 
-            color: var(--text-muted); 
-            border: 1px solid var(--border);
-            padding: 6px 12px;
-            border-radius: 4px;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted); 
+            border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; text-decoration: none; 
+            margin-left: 10px; cursor: pointer;
         }
         .nav-link:hover { border-color: var(--text-main); color: var(--text-main); }
-
-        /* --- HEADER --- */
-        .page-header { margin-bottom: 60px; max-width: 600px; }
-
-        .page-header h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            letter-spacing: -2px;
-            line-height: 1;
-            margin-bottom: 20px;
-        }
-        
-        .page-header h1 span { color: var(--text-muted); }
-        
-        .page-header p {
-            color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.6;
-            border-left: 2px solid var(--accent);
-            padding-left: 20px;
-        }
+        .cart-count { color: var(--accent); font-weight: 700; margin-left: 5px; }
 
         /* --- SHOP GRID --- */
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 30px;
-            padding-bottom: 60px;
-        }
+        .page-header h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; margin-bottom: 20px; line-height: 1;}
+        .page-header h1 span { color: var(--text-muted); }
+        .page-header p { color: var(--text-muted); border-left: 2px solid var(--accent); padding-left: 20px; margin-bottom: 60px;}
 
-        .product-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        .product-image-area {
-            height: 250px;
-            background: rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            border-bottom: 1px solid var(--border);
-        }
+        .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; padding-bottom: 60px; }
+        .product-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; }
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .product-image-area { height: 250px; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-family: 'JetBrains Mono'; border-bottom: 1px solid var(--border); }
+        .product-details { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px;}
+        .price { font-family: 'JetBrains Mono'; font-weight: 700; }
         
-        .img-placeholder {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            opacity: 0.5;
-        }
+        .btn-buy { background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.75rem; cursor: pointer; }
+        .btn-buy:hover { background: #6d28d9; }
+        .btn-disabled { background: transparent; border: 1px solid var(--border); color: var(--text-muted); cursor: not-allowed; padding: 8px 16px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.75rem; }
 
-        .product-details {
-            padding: 30px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
+        /* --- CART SIDEBAR --- */
+        .cart-overlay {
+            position: fixed; top: 0; right: -400px; width: 400px; height: 100vh;
+            background: #0a0a0a; border-left: 1px solid var(--border);
+            z-index: 1000; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column;
+            box-shadow: -20px 0 50px rgba(0,0,0,0.5);
         }
+        .cart-open .cart-overlay { right: 0; }
+        .cart-header { padding: 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .cart-title { font-weight: 900; font-size: 1.5rem; }
+        .close-cart { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.5rem; }
+        
+        .cart-items { flex-grow: 1; overflow-y: auto; padding: 20px; }
+        .cart-item { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid var(--border); align-items: center; }
+        .cart-item-details h4 { font-size: 0.9rem; margin-bottom: 4px; }
+        .cart-item-price { color: var(--text-muted); font-family: 'JetBrains Mono'; font-size: 0.8rem; }
+        .remove-btn { margin-left: auto; color: #ef4444; background: none; border: none; cursor: pointer; font-family: 'JetBrains Mono'; font-size: 0.7rem; }
 
-        .product-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
+        .cart-footer { padding: 30px; border-top: 1px solid var(--border); background: var(--surface); }
+        .total-row { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 700; font-size: 1.2rem; }
+        .checkout-btn { width: 100%; background: white; color: black; padding: 15px; border: none; font-weight: 900; cursor: pointer; }
+        .checkout-btn:hover { background: #ddd; }
 
-        .product-desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
+        /* Dim background when cart is open */
+        .dimmer { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 900; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .cart-open .dimmer { opacity: 1; pointer-events: all; }
 
-        .product-footer {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border);
-            padding-top: 20px;
-        }
-
-        .price {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .btn-buy {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .btn-buy:hover { background: var(--accent-hover); }
-
-        .btn-disabled {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            cursor: not-allowed;
-        }
-
-        /* --- ANIMATIONS --- */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-enter { animation: fadeInUp 0.8s ease forwards; opacity: 0; }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-
-        /* --- MOBILE LAYOUT --- */
-        @media (max-width: 900px) {
-            nav { flex-direction: column; gap: 20px; padding-bottom: 40px; }
-            .logo-overlay { height: 2.2rem; }
-            .page-header { text-align: center; margin: 0 auto 60px auto; }
-            .page-header p { border: none; padding: 0; }
-            .page-header h1 { font-size: 2.5rem; }
-            .shop-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 500px) { .cart-overlay { width: 100%; right: -100%; } }
     </style>
 </head>
 <body>
 
+    <div class="dimmer" onclick="toggleCart()"></div>
+
+    <div class="cart-overlay">
+        <div class="cart-header">
+            <span class="cart-title">SYSTEM_CART</span>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <div style="text-align: center; color: var(--text-muted); margin-top: 50px; font-family: 'JetBrains Mono'">[ CART_EMPTY ]</div>
+        </div>
+        <div class="cart-footer">
+            <div class="total-row">
+                <span>TOTAL</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="alert('CHECKOUT_MODULE: PENDING_INTEGRATION')">PROCEED TO CHECKOUT</button>
+        </div>
+    </div>
+
     <div class="container">
         
-        <nav class="animate-enter">
-            <a href="shop.html" class="logo-link">
-                <span class="logo-text">DEATH2X</span>
-                <img src="death2x.png" alt="Logo" class="logo-overlay" onerror="this.style.display='none'">
-            </a>
-            
-            <div style="display: flex; gap: 15px;">
-                <a href="login.html" id="authLink" class="nav-link">LOGIN / SIGNUP</a>
-                <a href="index.html" class="nav-link">cd .. / return_home</a>
+        <nav>
+            <a href="shop.html" class="logo-text">DEATH2X</a>
+            <div style="display: flex;">
+                <button class="nav-link" onclick="toggleCart()">CART <span id="navCartCount" class="cart-count">0</span></button>
+                <a href="login.html" id="authLink" class="nav-link">LOGIN</a>
+                <a href="index.html" class="nav-link">cd .. /</a>
             </div>
         </nav>
 
-        <header class="page-header animate-enter delay-1">
+        <header class="page-header">
             <h1>DEATHX2 <br><span>STORE.</span></h1>
-            <p>
-                Equipment, digital assets, and source code. 
-                High-quality resources for your next build.
-            </p>
+            <p>Equipment, digital assets, and source code.</p>
         </header>
 
         <section class="shop-grid">
 
-            <div class="product-card animate-enter delay-2">
-                <div class="product-image-area">
-                    <span class="img-placeholder">[ IMAGE_NOT_FOUND ]</span>
-                </div>
+            <div class="product-card">
+                <div class="product-image-area">[ IMAGE_NOT_FOUND ]</div>
                 <div class="product-details">
                     <h3 class="product-title">System Hoodie v2</h3>
-                    <p class="product-desc">Heavyweight cotton blend. Features the Death2x grid pattern on the back.</p>
+                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">Heavyweight cotton blend.</p>
                     <div class="product-footer">
                         <span class="price">$55.00</span>
-                        <a href="#" class="btn-buy">ADD_TO_CART</a>
+                        <button class="btn-buy" onclick="addToCart('System Hoodie v2', 55.00)">ADD_TO_CART</button>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card animate-enter delay-3">
-                <div class="product-image-area">
-                    <span class="img-placeholder">[ MUG_RENDER.obj ]</span>
-                </div>
+            <div class="product-card">
+                <div class="product-image-area">[ MUG_RENDER.obj ]</div>
                 <div class="product-details">
                     <h3 class="product-title">"Hello World" Mug</h3>
-                    <p class="product-desc">Matte black ceramic. Keeps coffee hot while you debug infinite loops.</p>
+                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">Matte black ceramic.</p>
                     <div class="product-footer">
                         <span class="price">$18.00</span>
-                        <a href="#" class="btn-buy">ADD_TO_CART</a>
+                        <button class="btn-buy" onclick="addToCart('Hello World Mug', 18.00)">ADD_TO_CART</button>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card animate-enter delay-3">
-                <div class="product-image-area">
-                    <span class="img-placeholder">[ SOURCE_LOCKED ]</span>
-                </div>
+            <div class="product-card">
+                <div class="product-image-area">[ SOURCE_LOCKED ]</div>
                 <div class="product-details">
                     <h3 class="product-title">Private Source Code</h3>
-                    <p class="product-desc">Complete access to my personal algorithm library. Requires clearance.</p>
+                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">Complete access to algorithms.</p>
                     <div class="product-footer">
-                        <span class="price">INVALID</span>
-                        <button class="btn-buy btn-disabled" disabled>OUT_OF_STOCK</button>
+                        <span class="price" id="sourcePrice">INVALID</span>
+                        <button id="lockedBtn" class="btn-disabled" disabled>OUT_OF_STOCK</button>
                     </div>
                 </div>
             </div>
 
         </section>
-
     </div>
 
-<script>
+    <script>
+        // --- AUTH & PROFILE LOGIC ---
         const authLink = document.getElementById('authLink');
         const userEmail = localStorage.getItem('death2x_user');
         const token = localStorage.getItem('death2x_token');
 
         if (token && userEmail) {
-            // --- 1. USER IS LOGGED IN ---
-            
-            // Update Navigation
+            // User Logged In: Link to Profile
             const shortName = userEmail.split('@')[0];
-            authLink.innerText = "LOGOUT [" + shortName + "]";
-            authLink.href = "#";
-            
-            // Logout Logic
-            authLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                if(confirm("Confirm termination of session?")) {
-                    localStorage.removeItem('death2x_token');
-                    localStorage.removeItem('death2x_user');
-                    window.location.reload();
-                }
-            });
+            authLink.innerText = "PROFILE [" + shortName + "]";
+            authLink.href = "profile.html"; // Goes to the new profile page
 
-            // --- 2. UNLOCK "PRIVATE SOURCE CODE" ITEM ---
-            // Find the button that is currently disabled
-            const disabledBtn = document.querySelector('.btn-disabled');
-            
-            if (disabledBtn) {
-                // Find the price tag next to the button
-                const priceTag = disabledBtn.parentElement.querySelector('.price');
-
-                // Update the UI to show it's unlocked
-                disabledBtn.disabled = false;
-                disabledBtn.classList.remove('btn-disabled');
-                disabledBtn.classList.add('btn-buy'); // Add the purple style
-                disabledBtn.innerText = "ACCESS_GRANTED";
-                
-                // Update the price from "INVALID" to a number
-                if(priceTag) priceTag.innerText = "$500.00";
-                
-                // Add click functionality
-                disabledBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    alert("DOWNLOADING: source_code_v1.zip (1.2GB)...");
-                });
+            // Unlock the "Private Source Code"
+            const lockedBtn = document.getElementById('lockedBtn');
+            const sourcePrice = document.getElementById('sourcePrice');
+            if(lockedBtn) {
+                lockedBtn.disabled = false;
+                lockedBtn.className = "btn-buy";
+                lockedBtn.innerText = "ADD_TO_CART";
+                sourcePrice.innerText = "$500.00";
+                // We overwrite the onclick to add to cart
+                lockedBtn.onclick = function() { addToCart('Private Source Code', 500.00); };
             }
 
         } else {
-            // --- USER IS NOT LOGGED IN ---
+            // User Logged Out
             authLink.innerText = "LOGIN / SIGNUP";
             authLink.href = "login.html";
         }
+
+        // --- CART LOGIC ---
+        // Load cart from local storage or empty array
+        let cart = JSON.parse(localStorage.getItem('death2x_cart')) || [];
+
+        function toggleCart() {
+            document.body.classList.toggle('cart-open');
+        }
+
+        function addToCart(title, price) {
+            cart.push({ title, price, id: Date.now() });
+            saveCart();
+            renderCart();
+            // Open cart to show user
+            document.body.classList.add('cart-open');
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            saveCart();
+            renderCart();
+        }
+
+        function saveCart() {
+            localStorage.setItem('death2x_cart', JSON.stringify(cart));
+            updateNavCount();
+        }
+
+        function updateNavCount() {
+            document.getElementById('navCartCount').innerText = cart.length;
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItemsContainer');
+            const totalEl = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: var(--text-muted); margin-top: 50px; font-family: \'JetBrains Mono\'">[ CART_EMPTY ]</div>';
+                totalEl.innerText = "$0.00";
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                total += item.price;
+                html += `
+                <div class="cart-item">
+                    <div class="cart-item-details">
+                        <h4>${item.title}</h4>
+                        <span class="cart-item-price">$${item.price.toFixed(2)}</span>
+                    </div>
+                    <button class="remove-btn" onclick="removeFromCart(${item.id})">REMOVE</button>
+                </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            totalEl.innerText = "$" + total.toFixed(2);
+            updateNavCount();
+        }
+
+        // Initial Render
+        renderCart();
     </script>
 </body>
 </html>
-
