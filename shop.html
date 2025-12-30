@@ -292,32 +292,59 @@
 
     </div>
 
-    <script>
+<script>
         const authLink = document.getElementById('authLink');
         const userEmail = localStorage.getItem('death2x_user');
         const token = localStorage.getItem('death2x_token');
 
         if (token && userEmail) {
-            // User is logged in
-            // Extract username before @ symbol for cleaner look
+            // --- 1. USER IS LOGGED IN ---
+            
+            // Update Navigation
             const shortName = userEmail.split('@')[0];
             authLink.innerText = "LOGOUT [" + shortName + "]";
             authLink.href = "#";
             
+            // Logout Logic
             authLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Logout logic
                 if(confirm("Confirm termination of session?")) {
                     localStorage.removeItem('death2x_token');
                     localStorage.removeItem('death2x_user');
                     window.location.reload();
                 }
             });
+
+            // --- 2. UNLOCK "PRIVATE SOURCE CODE" ITEM ---
+            // Find the button that is currently disabled
+            const disabledBtn = document.querySelector('.btn-disabled');
+            
+            if (disabledBtn) {
+                // Find the price tag next to the button
+                const priceTag = disabledBtn.parentElement.querySelector('.price');
+
+                // Update the UI to show it's unlocked
+                disabledBtn.disabled = false;
+                disabledBtn.classList.remove('btn-disabled');
+                disabledBtn.classList.add('btn-buy'); // Add the purple style
+                disabledBtn.innerText = "ACCESS_GRANTED";
+                
+                // Update the price from "INVALID" to a number
+                if(priceTag) priceTag.innerText = "$500.00";
+                
+                // Add click functionality
+                disabledBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alert("DOWNLOADING: source_code_v1.zip (1.2GB)...");
+                });
+            }
+
         } else {
-            // User is NOT logged in
+            // --- USER IS NOT LOGGED IN ---
             authLink.innerText = "LOGIN / SIGNUP";
             authLink.href = "login.html";
         }
     </script>
 </body>
 </html>
+
