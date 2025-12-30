@@ -6,166 +6,44 @@
     <title>Login | Death2x Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- INHERITED THEME --- */
         :root {
             --bg: #030303;
             --surface: rgba(255, 255, 255, 0.03);
-            --surface-hover: rgba(255, 255, 255, 0.06);
             --border: rgba(255, 255, 255, 0.08);
             --accent: #7c3aed;
-            --accent-glow: rgba(124, 58, 237, 0.2);
             --accent-hover: #6d28d9;
             --text-main: #ffffff;
             --text-muted: #888888;
             --grid-color: rgba(255, 255, 255, 0.03);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             background-color: var(--bg);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background-image: 
-                linear-gradient(var(--grid-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
             background-size: 40px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
-
-        /* --- LOGIN CONTAINER --- */
-        .login-wrapper {
-            width: 100%;
-            max-width: 420px;
-            padding: 20px;
-        }
-
+        .login-wrapper { width: 100%; max-width: 420px; padding: 20px; }
         .login-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
-            animation: fadeInUp 0.8s ease forwards;
-            opacity: 0;
+            background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px;
+            position: relative; overflow: hidden; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
         }
-
-        /* Top decorative line */
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-
-        .header-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo-text {
-            font-weight: 900;
-            letter-spacing: -1px;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            display: block;
-            text-decoration: none;
-            color: var(--text-main);
-        }
-
-        .subtitle {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* --- FORMS --- */
+        .login-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+        .logo-text { font-weight: 900; letter-spacing: -1px; font-size: 1.5rem; color: var(--text-main); text-decoration: none; display: block; text-align: center; margin-bottom: 5px; }
+        .subtitle { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-bottom: 30px; }
         .input-group { margin-bottom: 20px; }
-
-        .input-label {
-            display: block;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .input-field {
-            width: 100%;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--border);
-            padding: 12px 16px;
-            border-radius: 6px;
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 12px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 10px;
-        }
-
+        .input-label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; }
+        .input-field { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px 16px; border-radius: 6px; color: var(--text-main); font-family: 'Inter', sans-serif; outline: none; transition: 0.3s; }
+        .input-field:focus { border-color: var(--accent); }
+        .btn-submit { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 700; cursor: pointer; margin-top: 10px; transition: 0.2s; }
         .btn-submit:hover { background: var(--accent-hover); }
-
-        /* --- TOGGLE LINKS --- */
-        .toggle-text {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .toggle-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        
-        .toggle-link:hover { text-decoration: underline; }
-
-        .return-link {
-            display: block;
-            text-align: center;
-            margin-top: 30px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-        .return-link:hover { opacity: 1; }
-
-        /* --- ANIMATIONS --- */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Utility to hide/show forms */
+        .btn-submit:disabled { background: var(--text-muted); cursor: not-allowed; }
+        .toggle-text { text-align: center; margin-top: 25px; font-size: 0.9rem; color: var(--text-muted); }
+        .toggle-link { color: var(--accent); cursor: pointer; }
+        .error-msg { color: #ef4444; font-size: 0.8rem; text-align: center; margin-top: 10px; display: none; font-family: 'JetBrains Mono', monospace; }
         .hidden { display: none; }
     </style>
 </head>
@@ -173,109 +51,102 @@
 
     <div class="login-wrapper">
         <div class="login-card">
-            
-            <div class="header-section">
-                <a href="shop.html" class="logo-text">DEATH2X</a>
-                <p class="subtitle">SECURE_ACCESS_POINT</p>
-            </div>
+            <a href="shop.html" class="logo-text">DEATH2X</a>
+            <p class="subtitle">SECURE_ACCESS_POINT</p>
 
             <form id="loginForm">
                 <div class="input-group">
-                    <label class="input-label">USER_ID / EMAIL</label>
-                    <input type="email" class="input-field" placeholder="user@example.com" required>
+                    <label class="input-label">EMAIL</label>
+                    <input type="email" id="loginEmail" class="input-field" required>
                 </div>
-                
                 <div class="input-group">
                     <label class="input-label">PASSWORD</label>
-                    <input type="password" class="input-field" placeholder="••••••••" required>
+                    <input type="password" id="loginPass" class="input-field" required>
                 </div>
-
                 <button type="submit" class="btn-submit">AUTHENTICATE</button>
-
-                <p class="toggle-text">
-                    New user? <span class="toggle-link" onclick="toggleForm()">Initialize Registration</span>
-                </p>
+                <div id="loginError" class="error-msg"></div>
+                <p class="toggle-text">New user? <span class="toggle-link" onclick="toggleForm()">Initialize Registration</span></p>
             </form>
 
             <form id="registerForm" class="hidden">
                 <div class="input-group">
-                    <label class="input-label">USERNAME</label>
-                    <input type="text" class="input-field" placeholder="Create a handle" required>
+                    <label class="input-label">EMAIL</label>
+                    <input type="email" id="regEmail" class="input-field" required>
                 </div>
-
-                <div class="input-group">
-                    <label class="input-label">EMAIL_ADDRESS</label>
-                    <input type="email" class="input-field" placeholder="user@example.com" required>
-                </div>
-                
                 <div class="input-group">
                     <label class="input-label">SET_PASSWORD</label>
-                    <input type="password" class="input-field" placeholder="Create password" required>
+                    <input type="password" id="regPass" class="input-field" required>
                 </div>
-
                 <button type="submit" class="btn-submit">CREATE_ACCOUNT</button>
-
-                <p class="toggle-text">
-                    Already have access? <span class="toggle-link" onclick="toggleForm()">Return to Login</span>
-                </p>
+                <div id="regError" class="error-msg"></div>
+                <p class="toggle-text">Already have access? <span class="toggle-link" onclick="toggleForm()">Return to Login</span></p>
             </form>
-
         </div>
-
-        <a href="shop.html" class="return-link">< cd .. / return_to_shop ></a>
     </div>
 
-<script>
-    // --- LOGIN LOGIC (PROXY) ---
-    const loginForm = document.getElementById('loginForm');
-    
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const pass = document.getElementById('loginPass').value;
-        const errorDiv = document.getElementById('loginError');
-        const btn = document.querySelector('.btn-submit');
+    <script>
+        // --- LOGIN HANDLER ---
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await handleAuth('/api/login', 'loginEmail', 'loginPass', 'loginError');
+        });
 
-        // Visual Feedback
-        btn.innerText = "AUTHENTICATING...";
-        btn.disabled = true;
-        errorDiv.style.display = 'none';
+        // --- REGISTER HANDLER ---
+        const registerForm = document.getElementById('registerForm');
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await handleAuth('/api/register', 'regEmail', 'regPass', 'regError');
+        });
 
-        try {
-            // 1. Send credentials to OUR server (api/login.js)
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password: pass })
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || "Login Failed");
-            }
-
-            // 2. Login Success! Save the token.
-            // Since we aren't using the SDK, we must save the token manually.
-            localStorage.setItem('death2x_token', data.token);
-            localStorage.setItem('death2x_user', data.email);
+        // --- SHARED AUTH FUNCTION ---
+        async function handleAuth(endpoint, emailId, passId, errorId) {
+            const email = document.getElementById(emailId).value;
+            const password = document.getElementById(passId).value;
+            const errorDiv = document.getElementById(errorId);
+            const btn = document.querySelector(endpoint.includes('login') ? '#loginForm .btn-submit' : '#registerForm .btn-submit');
             
-            window.location.href = "shop.html";
+            // Visual loading state
+            const originalText = btn.innerText;
+            btn.innerText = "PROCESSING...";
+            btn.disabled = true;
+            errorDiv.style.display = 'none';
 
-        } catch (error) {
-            btn.innerText = "AUTHENTICATE";
-            btn.disabled = false;
-            errorDiv.style.display = 'block';
-            errorDiv.innerText = "ACCESS_DENIED: " + error.message;
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Operation failed');
+                }
+
+                // Success: Save token and user info
+                localStorage.setItem('death2x_token', data.token);
+                localStorage.setItem('death2x_user', data.email);
+                
+                // Redirect to shop
+                window.location.href = "shop.html";
+
+            } catch (error) {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                errorDiv.style.display = 'block';
+                // Clean up error message (Firebase errors are sometimes messy)
+                let cleanError = error.message.replace('EMAIL_', '').replace(/_/g, ' ');
+                errorDiv.innerText = "ERROR: " + cleanError;
+            }
         }
-    });
 
-    // Toggle Form Function
-    function toggleForm() {
-        document.getElementById('loginForm').classList.toggle('hidden');
-        document.getElementById('registerForm').classList.toggle('hidden');
-    }
-</script>
+        function toggleForm() {
+            document.getElementById('loginForm').classList.toggle('hidden');
+            document.getElementById('registerForm').classList.toggle('hidden');
+            document.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
+        }
+    </script>
 </body>
-
 </html>
