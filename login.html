@@ -225,19 +225,57 @@
         <a href="shop.html" class="return-link">< cd .. / return_to_shop ></a>
     </div>
 
-    <script>
-        function toggleForm() {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            
-            if (loginForm.classList.contains('hidden')) {
-                loginForm.classList.remove('hidden');
-                registerForm.classList.add('hidden');
-            } else {
-                loginForm.classList.add('hidden');
-                registerForm.classList.remove('hidden');
+<script>
+    // --- LOGIN LOGIC (PROXY) ---
+    const loginForm = document.getElementById('loginForm');
+    
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const pass = document.getElementById('loginPass').value;
+        const errorDiv = document.getElementById('loginError');
+        const btn = document.querySelector('.btn-submit');
+
+        // Visual Feedback
+        btn.innerText = "AUTHENTICATING...";
+        btn.disabled = true;
+        errorDiv.style.display = 'none';
+
+        try {
+            // 1. Send credentials to OUR server (api/login.js)
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password: pass })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Login Failed");
             }
+
+            // 2. Login Success! Save the token.
+            // Since we aren't using the SDK, we must save the token manually.
+            localStorage.setItem('death2x_token', data.token);
+            localStorage.setItem('death2x_user', data.email);
+            
+            window.location.href = "shop.html";
+
+        } catch (error) {
+            btn.innerText = "AUTHENTICATE";
+            btn.disabled = false;
+            errorDiv.style.display = 'block';
+            errorDiv.innerText = "ACCESS_DENIED: " + error.message;
         }
-    </script>
+    });
+
+    // Toggle Form Function
+    function toggleForm() {
+        document.getElementById('loginForm').classList.toggle('hidden');
+        document.getElementById('registerForm').classList.toggle('hidden');
+    }
+</script>
 </body>
+
 </html>
