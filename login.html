@@ -136,7 +136,7 @@
                 btn.innerText = originalText;
                 btn.disabled = false;
                 errorDiv.style.display = 'block';
-                // Clean up error message (Firebase errors are sometimes messy)
+                // Clean up error message
                 let cleanError = error.message.replace('EMAIL_', '').replace(/_/g, ' ');
                 errorDiv.innerText = "ERROR: " + cleanError;
             }
