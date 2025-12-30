@@ -1,4 +1,15 @@
 export default async function handler(req, res) {
+    // 1. Handle CORS
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
+    }
+
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
@@ -7,11 +18,10 @@ export default async function handler(req, res) {
     const apiKey = process.env.FIREBASE_API_KEY;
 
     if (!apiKey) {
-        return res.status(500).json({ error: 'Server misconfiguration: API Key missing' });
+        return res.status(500).json({ error: 'Server Error: API Key missing.' });
     }
 
     try {
-        // Send data to Firebase "Sign Up" endpoint
         const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -28,13 +38,12 @@ export default async function handler(req, res) {
             throw new Error(data.error.message || 'Registration failed');
         }
 
-        // Return success token
-        res.status(200).json({ 
+        return res.status(200).json({ 
             token: data.idToken,
             email: data.email
         });
 
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
     }
 }
