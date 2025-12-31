@@ -79,24 +79,32 @@
             color: var(--text-main);
         }
 
-        /* UPDATED: LOGO ANIMATION */
+        /* UPDATED: LOGO SHAKE */
         .logo-overlay {
             position: absolute;
             top: 50%; left: 50%;
-            /* transform is now handled by the animation keyframes */
+            /* Base state: Centered */
             transform: translate(-50%, -50%);
             height: 2.8rem;
             min-width: 100%; 
             background-color: var(--bg); 
             object-fit: contain;
-            /* Adding the pulse animation here */
-            animation: logoPulse 2s infinite ease-in-out;
+            /* Animation: 5s duration, runs forever */
+            animation: glitchShake 5s infinite;
         }
 
-        /* Keyframes to scale image up and down while keeping it centered */
-        @keyframes logoPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.15); }
+        /* SHAKE ANIMATION: 
+           Stays still from 0% to 92%, then shakes rapidly until 98%, then resets.
+           Note: We must include translate(-50%, -50%) in every step to keep it centered.
+        */
+        @keyframes glitchShake {
+            0%, 92% { transform: translate(-50%, -50%); } 
+            93% { transform: translate(-52%, -50%); } /* Left */
+            94% { transform: translate(-48%, -50%); } /* Right */
+            95% { transform: translate(-50%, -52%); } /* Up */
+            96% { transform: translate(-50%, -48%); } /* Down */
+            97% { transform: translate(-51%, -49%); } /* Diagonal */
+            98%, 100% { transform: translate(-50%, -50%); } /* Reset */
         }
 
         .tagline { 
