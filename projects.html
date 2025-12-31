@@ -59,7 +59,7 @@
             padding: 20px 0 60px 0;
         }
 
-        /* --- LOGO & NAV --- */
+        /* --- LOGO & NAV (UPDATED WITH ARROW) --- */
         .logo-link {
             text-decoration: none;
             position: relative;
@@ -71,6 +71,24 @@
             letter-spacing: -1px; 
             font-size: 1.2rem;
             color: var(--text-main);
+            /* Align the arrow vertically */
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* The Arrow */
+        .logo-text::after {
+            content: '→';
+            margin-left: 8px;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+            opacity: 0.8;
+        }
+
+        /* Animation on Hover */
+        .logo-link:hover .logo-text::after {
+            transform: translateX(5px);
+            opacity: 1;
         }
 
         .logo-overlay {
