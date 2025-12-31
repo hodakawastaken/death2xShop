@@ -33,17 +33,41 @@
             background-size: 40px 40px;
         }
 
-        /* --- NEW YEAR ANNOUNCEMENT BAR --- */
+        /* --- UPDATED ANNOUNCEMENT BAR --- */
         .announcement-bar {
             background: var(--accent);
             color: #fff;
-            text-align: center;
             padding: 10px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            
+            /* Flexbox to center text and button */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px; 
+        }
+
+        /* New Button Style inside Announcement Bar */
+        .announcement-btn {
+            background: #ffffff;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 900;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .announcement-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         /* --- UTILITIES --- */
@@ -79,32 +103,26 @@
             color: var(--text-main);
         }
 
-        /* UPDATED: LOGO SHAKE */
+        /* LOGO SHAKE (Kept from previous turn) */
         .logo-overlay {
             position: absolute;
             top: 50%; left: 50%;
-            /* Base state: Centered */
             transform: translate(-50%, -50%);
             height: 2.8rem;
             min-width: 100%; 
             background-color: var(--bg); 
             object-fit: contain;
-            /* Animation: 5s duration, runs forever */
             animation: glitchShake 5s infinite;
         }
 
-        /* SHAKE ANIMATION: 
-           Stays still from 0% to 92%, then shakes rapidly until 98%, then resets.
-           Note: We must include translate(-50%, -50%) in every step to keep it centered.
-        */
         @keyframes glitchShake {
             0%, 92% { transform: translate(-50%, -50%); } 
-            93% { transform: translate(-52%, -50%); } /* Left */
-            94% { transform: translate(-48%, -50%); } /* Right */
-            95% { transform: translate(-50%, -52%); } /* Up */
-            96% { transform: translate(-50%, -48%); } /* Down */
-            97% { transform: translate(-51%, -49%); } /* Diagonal */
-            98%, 100% { transform: translate(-50%, -50%); } /* Reset */
+            93% { transform: translate(-52%, -50%); }
+            94% { transform: translate(-48%, -50%); }
+            95% { transform: translate(-50%, -52%); }
+            96% { transform: translate(-50%, -48%); }
+            97% { transform: translate(-51%, -49%); }
+            98%, 100% { transform: translate(-50%, -50%); }
         }
 
         .tagline { 
@@ -252,7 +270,8 @@
 <body>
     
     <div class="announcement-bar">
-        NEW YEAR'S 50% OFF // CLICK THE DEATH2X IMAGE TO OPEN SHOP
+        <span>NEW YEAR'S 50% OFF</span>
+        <a href="shop.html" class="announcement-btn">OPEN SHOP</a>
     </div>
 
     <div class="container">
