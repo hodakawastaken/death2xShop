@@ -170,38 +170,116 @@
         </section>
     </div>
 
-    <script>
-        // --- AUTH & PROFILE LOGIC ---
+<script>
+        // --- 1. PRODUCT DATABASE ---
+        // Add your new products here!
+        const products = [
+            {
+                id: 1,
+                name: "System Hoodie v2",
+                price: 55.00,
+                desc: "Heavyweight cotton blend. Features grid pattern.",
+                image: "[ IMAGE_NOT_FOUND ]",
+                locked: false
+            },
+            {
+                id: 2,
+                name: "\"Hello World\" Mug",
+                price: 18.00,
+                desc: "Matte black ceramic. Keeps coffee hot while debugging.",
+                image: "[ MUG_RENDER.obj ]",
+                locked: false
+            },
+            {
+                id: 3,
+                name: "Mechanical Keycaps",
+                price: 45.00,
+                desc: "Custom PBT keycaps. Dark grey with purple legends.",
+                image: "[ KEY_SET_V1 ]",
+                locked: false
+            },
+            {
+                id: 4,
+                name: "Protocol Sticker Pack",
+                price: 12.00,
+                desc: "Holographic vinyl stickers for your laptop lid.",
+                image: "[ ASSET_LOADED ]",
+                locked: false
+            },
+            {
+                id: 5,
+                name: "Neural Link (Beta)",
+                price: 149.99,
+                desc: "Experimental hardware interface. use at own risk.",
+                image: "[ HARDWARE_DETECTED ]",
+                locked: false
+            },
+            {
+                id: 99, // Special ID
+                name: "Private Source Code",
+                price: 500.00, // Price when unlocked
+                desc: "Complete access to personal algorithm library.",
+                image: "[ SOURCE_LOCKED ]",
+                locked: true // This triggers the logic below
+            }
+        ];
+
+        // --- 2. AUTH CHECK ---
         const authLink = document.getElementById('authLink');
         const userEmail = localStorage.getItem('death2x_user');
         const token = localStorage.getItem('death2x_token');
+        const isLoggedIn = (token && userEmail);
 
-        if (token && userEmail) {
-            // User Logged In: Link to Profile
+        if (isLoggedIn) {
             const shortName = userEmail.split('@')[0];
             authLink.innerText = "PROFILE [" + shortName + "]";
-            authLink.href = "profile.html"; // Goes to the new profile page
-
-            // Unlock the "Private Source Code"
-            const lockedBtn = document.getElementById('lockedBtn');
-            const sourcePrice = document.getElementById('sourcePrice');
-            if(lockedBtn) {
-                lockedBtn.disabled = false;
-                lockedBtn.className = "btn-buy";
-                lockedBtn.innerText = "ADD_TO_CART";
-                sourcePrice.innerText = "$500.00";
-                // We overwrite the onclick to add to cart
-                lockedBtn.onclick = function() { addToCart('Private Source Code', 500.00); };
-            }
-
+            authLink.href = "profile.html";
         } else {
-            // User Logged Out
             authLink.innerText = "LOGIN / SIGNUP";
             authLink.href = "login.html";
         }
 
-        // --- CART LOGIC ---
-        // Load cart from local storage or empty array
+        // --- 3. RENDER SHOP ---
+        const shopGrid = document.getElementById('shopGrid');
+
+        products.forEach(product => {
+            // Check if this is the special locked item
+            let isLocked = product.locked && !isLoggedIn;
+            
+            // Logic for the Button and Price display
+            let btnHTML = '';
+            let priceDisplay = `$${product.price.toFixed(2)}`;
+
+            if (isLocked) {
+                // If it's locked and user is NOT logged in
+                priceDisplay = "INVALID";
+                btnHTML = `<button class="btn-disabled" disabled>OUT_OF_STOCK</button>`;
+            } else if (product.locked && isLoggedIn) {
+                // If it was locked, but user IS logged in -> Show "ACCESS_GRANTED"
+                btnHTML = `<button class="btn-buy" onclick="addToCart('${product.name}', ${product.price})">ACCESS_GRANTED</button>`;
+            } else {
+                // Normal product
+                btnHTML = `<button class="btn-buy" onclick="addToCart('${product.name}', ${product.price})">ADD_TO_CART</button>`;
+            }
+
+            // Create the HTML Card
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="product-image-area">${product.image}</div>
+                <div class="product-details">
+                    <h3 class="product-title">${product.name}</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">${product.desc}</p>
+                    <div class="product-footer">
+                        <span class="price">${priceDisplay}</span>
+                        ${btnHTML}
+                    </div>
+                </div>
+            `;
+            shopGrid.appendChild(card);
+        });
+
+        // --- 4. CART LOGIC (unchanged) ---
         let cart = JSON.parse(localStorage.getItem('death2x_cart')) || [];
 
         function toggleCart() {
@@ -212,7 +290,6 @@
             cart.push({ title, price, id: Date.now() });
             saveCart();
             renderCart();
-            // Open cart to show user
             document.body.classList.add('cart-open');
         }
 
@@ -238,6 +315,7 @@
             if (cart.length === 0) {
                 container.innerHTML = '<div style="text-align: center; color: var(--text-muted); margin-top: 50px; font-family: \'JetBrains Mono\'">[ CART_EMPTY ]</div>';
                 totalEl.innerText = "$0.00";
+                updateNavCount();
                 return;
             }
 
@@ -267,3 +345,4 @@
     </script>
 </body>
 </html>
+
