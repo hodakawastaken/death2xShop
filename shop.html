@@ -1,4 +1,4 @@
-         <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -129,7 +129,7 @@
             <p>Equipment, digital assets, and source code.</p>
         </header>
 
-        <section class="shop-grid">
+        <section class="shop-grid" id="shopGrid">
         </section>
     </div>
 
@@ -196,7 +196,7 @@
         if (isLoggedIn) {
             const shortName = userEmail.split('@')[0];
             authLink.innerText = "PROFILE [" + shortName + "]";
-            authLink.href = "profile.html";
+            authLink.href = "profile.html"; // Ensure this page exists or link to shop
         } else {
             authLink.innerText = "LOGIN / SIGNUP";
             authLink.href = "login.html";
@@ -205,42 +205,47 @@
         // --- 3. RENDER SHOP ---
         const shopGrid = document.getElementById('shopGrid');
 
-        products.forEach(product => {
-            // Check if this is the special locked item
-            let isLocked = product.locked && !isLoggedIn;
-            
-            // Logic for the Button and Price display
-            let btnHTML = '';
-            let priceDisplay = `$${product.price.toFixed(2)}`;
+        // Safety check to ensure the element exists before running loop
+        if (shopGrid) {
+            products.forEach(product => {
+                // Check if this is the special locked item
+                let isLocked = product.locked && !isLoggedIn;
+                
+                // Logic for the Button and Price display
+                let btnHTML = '';
+                let priceDisplay = `$${product.price.toFixed(2)}`;
 
-            if (isLocked) {
-                // If it's locked and user is NOT logged in
-                priceDisplay = "INVALID";
-                btnHTML = `<button class="btn-disabled" disabled>OUT_OF_STOCK</button>`;
-            } else if (product.locked && isLoggedIn) {
-                // If it was locked, but user IS logged in -> Show "ACCESS_GRANTED"
-                btnHTML = `<button class="btn-buy" onclick="addToCart('${product.name}', ${product.price})">ACCESS_GRANTED</button>`;
-            } else {
-                // Normal product
-                btnHTML = `<button class="btn-buy" onclick="addToCart('${product.name}', ${product.price})">ADD_TO_CART</button>`;
-            }
+                if (isLocked) {
+                    // If it's locked and user is NOT logged in
+                    priceDisplay = "INVALID";
+                    btnHTML = `<button class="btn-disabled" disabled>OUT_OF_STOCK</button>`;
+                } else if (product.locked && isLoggedIn) {
+                    // If it was locked, but user IS logged in -> Show "ACCESS_GRANTED"
+                    btnHTML = `<button class="btn-buy" onclick="addToCart('${product.name}', ${product.price})">ACCESS_GRANTED</button>`;
+                } else {
+                    // Normal product
+                    btnHTML = `<button class="btn-buy" onclick="addToCart('${product.name}', ${product.price})">ADD_TO_CART</button>`;
+                }
 
-            // Create the HTML Card
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <div class="product-image-area">${product.image}</div>
-                <div class="product-details">
-                    <h3 class="product-title">${product.name}</h3>
-                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">${product.desc}</p>
-                    <div class="product-footer">
-                        <span class="price">${priceDisplay}</span>
-                        ${btnHTML}
+                // Create the HTML Card
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image-area">${product.image}</div>
+                    <div class="product-details">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">${product.desc}</p>
+                        <div class="product-footer">
+                            <span class="price">${priceDisplay}</span>
+                            ${btnHTML}
+                        </div>
                     </div>
-                </div>
-            `;
-            shopGrid.appendChild(card);
-        });
+                `;
+                shopGrid.appendChild(card);
+            });
+        } else {
+            console.error("Error: Element with id 'shopGrid' not found.");
+        }
 
         // --- 4. CART LOGIC (unchanged) ---
         let cart = JSON.parse(localStorage.getItem('death2x_cart')) || [];
@@ -268,13 +273,16 @@
         }
 
         function updateNavCount() {
-            document.getElementById('navCartCount').innerText = cart.length;
+            const countElement = document.getElementById('navCartCount');
+            if(countElement) countElement.innerText = cart.length;
         }
 
         function renderCart() {
             const container = document.getElementById('cartItemsContainer');
             const totalEl = document.getElementById('cartTotal');
             
+            if (!container || !totalEl) return;
+
             if (cart.length === 0) {
                 container.innerHTML = '<div style="text-align: center; color: var(--text-muted); margin-top: 50px; font-family: \'JetBrains Mono\'">[ CART_EMPTY ]</div>';
                 totalEl.innerText = "$0.00";
@@ -308,6 +316,3 @@
     </script>
 </body>
 </html>
-
-
-
