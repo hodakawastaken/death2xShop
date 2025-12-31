@@ -72,11 +72,29 @@
             text-decoration: none;
         }
 
+        /* --- LOGO WITH ARROW (Updated) --- */
         .logo-text {
             font-weight: 900; 
             letter-spacing: -1px; 
             font-size: 1.2rem;
             color: var(--text-main);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* The Arrow */
+        .logo-text::after {
+            content: '→';
+            margin-left: 8px;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+            opacity: 0.8;
+        }
+
+        /* Arrow Animation on Hover */
+        .logo-wrapper:hover .logo-text::after {
+            transform: translateX(5px);
+            opacity: 1;
         }
 
         .logo-overlay {
